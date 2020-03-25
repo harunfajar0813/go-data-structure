@@ -1,6 +1,18 @@
-package main
+package linkedlist
 
 import "fmt"
+
+type node struct {
+	value    int
+	next     *node
+	previous *node
+}
+
+func newNode(value int) (error, *node) {
+	return nil, &node{
+		value: value,
+	}
+}
 
 type linked struct {
 	head   *node
