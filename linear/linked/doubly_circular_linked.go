@@ -1,32 +1,32 @@
-package main
+package linked
 
 import "fmt"
 
-type node struct {
+type Node struct {
 	value    int
-	next     *node
-	previous *node
+	next     *Node
+	previous *Node
 }
 
-func newNode(value int) (error, *node) {
-	return nil, &node{
+func NewNode(value int) (error, *Node) {
+	return nil, &Node{
 		value: value,
 	}
 }
 
-type linked struct {
-	head   *node
-	tail   *node
+type DoublyCircularLinked struct {
+	head   *Node
+	tail   *Node
 	length int
 }
 
-func (l *linked) circularConnection() {
+func (l *DoublyCircularLinked) CircularConnection() {
 	l.head.previous = l.tail
 	l.head.previous.next = l.head
 }
 
-func (l *linked) insert(value int) {
-	if err, newNode := newNode(value); err == nil {
+func (l *DoublyCircularLinked) Insert(value int) {
+	if err, newNode := NewNode(value); err == nil {
 		if l.tail == nil {
 			l.tail = newNode
 			l.head = l.tail
@@ -35,13 +35,13 @@ func (l *linked) insert(value int) {
 			newNode.next.previous = newNode
 			l.head = l.head.previous
 		}
-		l.circularConnection()
+		l.CircularConnection()
 		l.length++
 	}
 }
 
-func (l *linked) append(value int) {
-	if err, newNode := newNode(value); err == nil {
+func (l *DoublyCircularLinked) Append(value int) {
+	if err, newNode := NewNode(value); err == nil {
 		if l.tail == nil {
 			l.tail = newNode
 			l.head = l.tail
@@ -50,53 +50,53 @@ func (l *linked) append(value int) {
 			newNode.previous.next = newNode
 			l.tail = l.tail.next
 		}
-		l.circularConnection()
+		l.CircularConnection()
 		l.length++
 	}
 }
 
-func (l *linked) isEmpty() bool {
+func (l *DoublyCircularLinked) IsEmpty() bool {
 	return l.tail == nil
 }
 
-func (l *linked) isOnlyOneNode() bool {
+func (l *DoublyCircularLinked) IsOnlyOneNode() bool {
 	return l.tail == l.head
 }
 
-func (l *linked) deleteHead() error {
-	if l.isEmpty() {
+func (l *DoublyCircularLinked) DeleteHead() error {
+	if l.IsEmpty() {
 		return fmt.Errorf("list is empty")
 	} else {
-		if l.isOnlyOneNode() {
+		if l.IsOnlyOneNode() {
 			l.head, l.tail = nil, nil
 		} else {
 			l.head = l.head.next
 			l.head.previous = nil
-			l.circularConnection()
+			l.CircularConnection()
 		}
 	}
 	l.length--
 	return nil
 }
 
-func (l *linked) deleteTail() error {
-	if l.isEmpty() {
+func (l *DoublyCircularLinked) DeleteTail() error {
+	if l.IsEmpty() {
 		return fmt.Errorf("list is empty")
 	} else {
-		if l.isOnlyOneNode() {
+		if l.IsOnlyOneNode() {
 			l.tail, l.head = nil, nil
 		} else {
 			l.tail = l.tail.previous
 			l.tail.next = nil
-			l.circularConnection()
+			l.CircularConnection()
 		}
 	}
 	l.length--
 	return nil
 }
 
-func (l *linked) show() {
-	if l.isEmpty() {
+func (l *DoublyCircularLinked) Show() {
+	if l.IsEmpty() {
 		fmt.Errorf("list is empty")
 		return
 	}
@@ -107,8 +107,8 @@ func (l *linked) show() {
 	}
 }
 
-func (l *linked) showReverse() {
-	if l.isEmpty() {
+func (l *DoublyCircularLinked) ShowReverse() {
+	if l.IsEmpty() {
 		fmt.Errorf("list is empty")
 		return
 	}

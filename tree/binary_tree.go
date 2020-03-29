@@ -2,28 +2,28 @@ package main
 
 import "fmt"
 
-type node struct {
+type Node struct {
 	value     int
-	leftSide  *node
-	rightSide *node
-	parent    *node
+	leftSide  *Node
+	rightSide *Node
+	parent    *Node
 }
 
-func newNode(value int) (error, *node) {
-	return nil, &node{
+func NewNode(value int) (error, *Node) {
+	return nil, &Node{
 		value: value,
 	}
 }
 
 type BinaryTree struct {
-	root *node
+	root *Node
 }
 
-func (bs *BinaryTree) getRoot() *node {
+func (bs *BinaryTree) GetRoot() *Node {
 	return bs.root
 }
 
-func (bs *BinaryTree) find(key int) *node {
+func (bs *BinaryTree) Find(key int) *Node {
 	current := bs.root
 	for current != nil {
 		if key < current.value {
@@ -43,13 +43,13 @@ func (bs *BinaryTree) find(key int) *node {
 	return nil
 }
 
-func (bs *BinaryTree) put(value int) {
-	if err, newNode := newNode(value); err == nil {
+func (bs *BinaryTree) Put(value int) {
+	if err, newNode := NewNode(value); err == nil {
 		if bs.root == nil {
 			bs.root = newNode
 			return
 		} else {
-			parent := bs.find(value)
+			parent := bs.Find(value)
 
 			if value < parent.value {
 				parent.leftSide = newNode
@@ -64,26 +64,26 @@ func (bs *BinaryTree) put(value int) {
 	}
 }
 
-func (bs *BinaryTree) preOrder(node *node) {
+func (bs *BinaryTree) PreOrder(node *Node) {
 	if node != nil {
 		fmt.Printf("%d %s", node.value, " ")
-		bs.preOrder(node.leftSide)
-		bs.preOrder(node.rightSide)
+		bs.PreOrder(node.leftSide)
+		bs.PreOrder(node.rightSide)
 	}
 }
 
-func (bs *BinaryTree) inOrder(node *node) {
+func (bs *BinaryTree) InOrder(node *Node) {
 	if node != nil {
-		bs.inOrder(node.leftSide)
+		bs.InOrder(node.leftSide)
 		fmt.Printf("%d %s", node.value, " ")
-		bs.inOrder(node.rightSide)
+		bs.InOrder(node.rightSide)
 	}
 }
 
-func (bs *BinaryTree) postOrder(node *node) {
+func (bs *BinaryTree) PostOrder(node *Node) {
 	if node != nil {
-		bs.postOrder(node.leftSide)
-		bs.postOrder(node.rightSide)
+		bs.PostOrder(node.leftSide)
+		bs.PostOrder(node.rightSide)
 		fmt.Printf("%d %s", node.value, " ")
 	}
 }

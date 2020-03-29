@@ -1,4 +1,4 @@
-package main
+package graph
 
 import (
 	"fmt"
@@ -13,19 +13,19 @@ func (n *Node) String() string {
 	return fmt.Sprintf("%v", n.value)
 }
 
-type ItemGraph struct {
+type Graph struct {
 	nodes []*Node
 	edges map[Node][]*Node
 	lock  sync.RWMutex
 }
 
-func (g *ItemGraph) AddNode(n *Node) {
+func (g *Graph) AddNode(n *Node) {
 	g.lock.Lock()
 	g.nodes = append(g.nodes, n)
 	g.lock.Unlock()
 }
 
-func (g *ItemGraph) AddEdge(n1, n2 *Node) {
+func (g *Graph) AddEdge(n1, n2 *Node) {
 	g.lock.Lock()
 	if g.edges == nil {
 		g.edges = make(map[Node][]*Node)
@@ -35,7 +35,7 @@ func (g *ItemGraph) AddEdge(n1, n2 *Node) {
 	g.lock.Unlock()
 }
 
-func (g *ItemGraph) String() {
+func (g *Graph) String() {
 	g.lock.RLock()
 	s := ""
 	for i := 0; i < len(g.nodes); i++ {
